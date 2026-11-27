@@ -56,7 +56,7 @@ the frame now is the one thread that submits the title's work to the card
 | Switch | What it does |
 |---|---|
 | `--console series-s` | The Series S profile: 1080p output, about 5 ms faster, a softer picture. The default on a PC with 32 GB of RAM or less (`--console series-x` for the other) |
-| `VICTORY_OUTPUT=1920x1080` | The title renders to that output size itself (Series X profile; about 16 ms less card time). `scripts\play.ps1 -Output 1280x720` sets the smallest. The Series S profile runs at 1920x1080 only, and another size is left out there |
+| `VICTORY_OUTPUT=1920x1080` | Sets the title's output size (about 16 ms less card time at 1080p on Series X). On Series S, bundled FidelityFX requires 1920x1080. For 720p with the title's own upscaler, pass `-Console series-s -Output 1280x720 -Set VICTORY_UPSCALER=6` to `scripts\play.ps1`. |
 | `VICTORY_RESIDENCY=0` | Turns off the memory budgets of a smaller PC, which are on by default with 32 GB of RAM or less |
 | `VICTORY_FRAME_INTERVAL_MS=16.667` | Lets the title go above 30 fps (menus and videos reach 60; the game's clock stays right) |
 | `VICTORY_AMBIENT_SETTLE` | How fast light settles after walking indoors (on by default, `250,3`; `0` turns it off) |

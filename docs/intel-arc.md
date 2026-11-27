@@ -144,12 +144,17 @@ of RAM or less:
 - The memory budgets of a smaller PC are on (`residency.rs`;
   `VICTORY_RESIDENCY=0` turns them off).
 
-**Do not ask for a smaller output on the Series S profile.** `-Output
-1280x720` was recommended here and crashed the title on entering the world (see
-the run below). The Series S profile's upscaler (FidelityFX) only has tables
-for 1920x1080, where the title renders at 1280x720. Another size is now left
-out with a line saying so. With `--console series-x` the sizes work as before,
-at the cost of that profile's memory.
+**Keep 1920x1080 output when using bundled FidelityFX on Series S.** Its tables
+expect that output size. The title normally renders at 1280x720 internally.
+The loader skips other requested output sizes unless you select the title's
+own upscaler with `VICTORY_UPSCALER=6`. Series X also accepts the other
+supported sizes, at the cost of that profile's memory.
+
+With the Series S profile and `VICTORY_OUTPUT=1280x720`, the reporter in
+[#307](https://github.com/avatarmanz/VIctory-7900XTX/issues/307) switched to
+`VICTORY_UPSCALER=6`, reached the cell and opened the pause menu on an RX 7900 XT
+with RADV 26.3.1 and Wine 11.22. The Windows commenter reproduced the loading
+exit but did not test mode 6 at 720p.
 
 `-Ports` turns on the five renderer patches of the README together (57-75 ms to
 about 45 ms a frame where they were measured, an AMD card). They are off by
@@ -170,8 +175,8 @@ memory, started with `-Output 1280x720`:
   card 2 to 5 % busy.
 - **It crashed on entering the world**: divide by zero at title+0x28f03e8,
   after the title said `FSR4 configuration mismatch: maxUpscaleSize must be
-  1920x1080; received 1280x720`. The cause was the output size asked for;
-  `resolution.rs` (`output_fits`) now leaves such a size out.
+  1920x1080; received 1280x720`. The loader's `output_fits` check now skips
+  that 720p request when using bundled FidelityFX on Series S.
 - `textures picked by index: the card has no room for more; they wait` with
   2,636 MB of the card's 7,424 MB budget in use. The 70 % texture share and the
   smaller count of empty texture blocks kept, both set for integrated cards a
